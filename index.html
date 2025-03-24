@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação Psicofinanceira</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f8fb;
+        }
+        
+        h1, h2, h3 {
+            color: #0c4b7a;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e0e8f0;
+            padding-bottom: 20px;
+        }
+        
+        .question {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input[type="text"], 
+        input[type="number"], 
+        textarea, 
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #c5d6e6;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .likert {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        
+        .likert label {
+            text-align: center;
+            flex: 1;
+            font-weight: normal;
+            font-size: 14px;
+        }
+        
+        button {
+            background-color: #0c4b7a;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            background-color: #1876b8;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        progress {
+            width: 100%;
+            height: 20px;
+            margin: 20px 0;
+        }
+        
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            max-width: 150px;
+            margin: 0 auto 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e8f0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        @media print {
+            button {
+                display: none;
+            }
+            
+            body {
+                background-color: white;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            .hidden {
+                display: block !important;
+            }
+            
+            .footer {
+                position: fixed;
+                bottom: 10px;
+                width: 100%;
+                left: 0;
+                right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://github.com/luaraujo0981/IMAGENS/blob/main/LOGO%20IPPLA%20SEM%20NOME.png?raw=true" alt="Logo IPPLA" class="logo">
+            <h1>Avaliação Psicofinanceira</h1>
+        </div>
+        
+        <p>Este formulário ajudará a entender sua relação com o dinheiro, seus objetivos financeiros e os aspectos psicológicos que influenciam suas decisões. Responda com sinceridade para obter os melhores resultados.</p>
+        
+        <div class="progress-labels">
+            <span>Parte 1</span>
+            <span>Parte 2</span>
+            <span>Parte 3</span>
+            <span>Conclusão</span>
+        </div>
+        <progress id="progress" value="0" max="3"></progress>
+        
+        <form id="psicofinanceiroForm">
+            <!-- PARTE 1: HISTÓRIA FINANCEIRA -->
+            <div id="part1" class="section">
+                <h2>Parte 1: Sua História Financeira</h2>
+                
+                <div class="question">
+                    <label for="primeiras_memorias">Quais são suas primeiras memórias relacionadas a dinheiro?</label>
+                    <textarea id="primeiras_memorias" name="primeiras_memorias" rows="3"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label for="familia_dinheiro">Na sua família, como o dinheiro era tratado? Quais mensagens você recebeu sobre finanças?</label>
+                    <textarea id="familia_dinheiro" name="familia_dinheiro" rows="3"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label for="melhor_decisao">Qual foi a melhor decisão financeira que você já tomou?</label>
+                    <textarea id="melhor_decisao" name="melhor_decisao" rows="3"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label for="pior_decisao">Qual foi a pior decisão financeira que você já tomou?</label>
+                    <textarea id="pior_decisao" name="pior_decisao" rows="3"></textarea>
+                </div>
+                
+                <h3>Para cada afirmação abaixo, indique seu nível de concordância:</h3>
+                
+                <div class="question">
+                    <label>Quando penso em economizar dinheiro, sinto ansiedade:</label>
+                    <div class="likert">
+                        <label><input type="radio" name="ansiedade_economizar" value="1"> Discordo totalmente</label>
+                        <label><input type="radio" name="ansiedade_economizar" value="2"> Discordo</label>
+                        <label><input type="radio" name="ansiedade_economizar" value="3"> Neutro</label>
+                        <label><input type="radio" name="ansiedade_economizar" value="4"> Concordo</label>
+                        <label><input type="radio" name="ansiedade_economizar" value="5"> Concordo totalmente</label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <label>Gastar dinheiro me traz alívio ou prazer imediato:</label>
+                    <div class="likert">
+                        <label><input type="radio" name="prazer_gastar" value="1"> Discordo totalmente</label>
+                        <label><input type="radio" name="prazer_gastar" value="2"> Discordo</label>
+                        <label><input type="radio" name="prazer_gastar" value="3"> Neutro</label>
+                        <label><input type="radio" name="prazer_gastar" value="4"> Concordo</label>
+                        <label><input type="radio" name="prazer_gastar" value="5"> Concordo totalmente</label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <label>Sinto que nunca terei dinheiro suficiente, não importa quanto ganhe:</label>
+                    <div class="likert">
+                        <label><input type="radio" name="nunca_suficiente" value="1"> Discordo totalmente</label>
+                        <label><input type="radio" name="nunca_suficiente" value="2"> Discordo</label>
+                        <label><input type="radio" name="nunca_suficiente" value="3"> Neutro</label>
+                        <label><input type="radio" name="nunca_suficiente" value="4"> Concordo</label>
+                        <label><input type="radio" name="nunca_suficiente" value="5"> Concordo totalmente</label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <label>Prefiro não falar sobre dinheiro com amigos ou familiares:</label>
+                    <div class="likert">
+                        <label><input type="radio" name="evita_falar" value="1"> Discordo totalmente</label>
+                        <label><input type="radio" name="evita_falar" value="2"> Discordo</label>
+                        <label><input type="radio" name="evita_falar" value="3"> Neutro</label>
+                        <label><input type="radio" name="evita_falar" value="4"> Concordo</label>
+                        <label><input type="radio" name="evita_falar" value="5"> Concordo totalmente</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PARTE 2: SITUAÇÃO ATUAL -->
+            <div id="part2" class="section hidden">
+                <h2>Parte 2: Sua Situação Financeira Atual</h2>
+                
+                <div class="question">
+                    <label for="renda_mensal">Qual é sua renda mensal aproximada? (R$)</label>
+                    <input type="number" id="renda_mensal" name="renda_mensal">
+                </div>
+                
+                <div class="question">
+                    <label for="gastos_mensais">Quais são seus gastos mensais aproximados? (R$)</label>
+                    <input type="number" id="gastos_mensais" name="gastos_mensais">
+                </div>
+                
+                <div class="question">
+                    <label for="dividas">Possui dívidas? Se sim, quanto deve aproximadamente? (R$)</label>
+                    <input type="number" id="dividas" name="dividas">
+                </div>
+                
+                <div class="question">
+                    <label for="investimentos">Quanto possui em investimentos atualmente? (R$)</label>
+                    <input type="number" id="investimentos" name="investimentos">
+                </div>
+                
+                <div class="question">
+                    <label for="reserva">Possui reserva de emergência? Quanto? (R$)</label>
+                    <input type="number" id="reserva" name="reserva">
+                </div>
+                
+                <div class="question">
+                    <label for="comportamento_financeiro">Como você descreveria seu comportamento financeiro atual?</label>
+                    <select id="comportamento_financeiro" name="comportamento_financeiro">
+                        <option value="">Selecione uma opção</option>
+                        <option value="Gastador impulsivo">Gastador impulsivo</option>
+                        <option value="Economizador compulsivo">Economizador compulsivo</option>
+                        <option value="Evitador financeiro">Evitador financeiro (prefiro não lidar com finanças)</option>
+                        <option value="Controlador equilibrado">Controlador equilibrado</option>
+                        <option value="Perseguidor de status">Perseguidor de status (gasto para impressionar)</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                
+                <div class="question">
+                    <label>Quando o mercado financeiro cai, minha primeira reação é:</label>
+                    <select id="reacao_mercado" name="reacao_mercado">
+                        <option value="">Selecione uma opção</option>
+                        <option value="Pânico e venda">Entro em pânico e penso em vender investimentos</option>
+                        <option value="Oportunidade">Vejo como oportunidade para comprar mais</option>
+                        <option value="Evito olhar">Evito olhar meus investimentos</option>
+                        <option value="Consulto assessor">Consulto meu assessor financeiro</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- PARTE 3: OBJETIVOS E VALORES -->
+            <div id="part3" class="section hidden">
+                <h2>Parte 3: Seus Objetivos e Valores</h2>
+                
+                <p>Classifique a importância dos seguintes valores/objetivos financeiros para você (1 = nada importante, 10 = extremamente importante):</p>
+                
+                <div class="question">
+                    <label for="seguranca">Segurança financeira:</label>
+                    <input type="number" id="seguranca" name="seguranca" min="1" max="10">
+                </div>
+                
+                <div class="question">
+                    <label for="liberdade">Liberdade para viajar/lazer:</label>
+                    <input type="number" id="liberdade" name="liberdade" min="1" max="10">
+                </div>
+                
+                <div class="question">
+                    <label for="aposentadoria">Aposentadoria confortável:</label>
+                    <input type="number" id="aposentadoria" name="aposentadoria" min="1" max="10">
+                </div>
+                
+                <div class="question">
+                    <label for="educacao">Educação (própria ou dos filhos):</label>
+                    <input type="number" id="educacao" name="educacao" min="1" max="10">
+                </div>
+                
+                <div class="question">
+                    <label for="status">Status social/bens de luxo:</label>
+                    <input type="number" id="status" name="status" min="1" max="10">
+                </div>
+                
+                <div class="question">
+                    <label for="independencia">Independência financeira:</label>
+                    <input type="number" id="independencia" name="independencia" min="1" max="10">
+                </div>
+                
+                <div class="question">
+                    <label for="filantropia">Filantropia/ajudar outros:</label>
+                    <input type="number" id="filantropia" name="filantropia" min="1" max="10">
+                </div>
+                
+                <div class="question">
+                    <label for="trabalho">Trabalhar menos horas:</label>
+                    <input type="number" id="trabalho" name="trabalho" min="1" max="10">
+                </div>
+                
+                <div class="question">
+                    <label for="negocio">Criar um negócio próprio:</label>
+                    <input type="number" id="negocio" name="negocio" min="1" max="10">
+                </div>
+                
+                <div class="question">
+                    <label for="heranca">Deixar herança:</label>
+                    <input type="number" id="heranca" name="heranca" min="1" max="10">
+                </div>
+                
+                <div class="question">
+                    <label for="objetivo_financeiro">Qual é seu principal objetivo financeiro neste momento?</label>
+                    <textarea id="objetivo_financeiro" name="objetivo_financeiro" rows="3"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label for="obstaculo">Qual você acredita ser o maior obstáculo para alcançar seu objetivo financeiro?</label>
+                    <textarea id="obstaculo" name="obstaculo" rows="3"></textarea>
+                </div>
+                
+                <div class="question">
+                    <label for="mudanca">Se você pudesse mudar um único comportamento financeiro seu, qual seria?</label>
+                    <textarea id="mudanca" name="mudanca" rows="3"></textarea>
+                </div>
+            </div>
+            
+            <!-- RESULTADOS -->
+            <div id="results" class="section hidden">
+                <h2>Análise Psicofinanceira Preliminar</h2>
+                <div id="result-content" class="result">
+                    <!-- Conteúdo gerado por JavaScript -->
+                </div>
+            </div>
+            
+            <!-- NAVEGAÇÃO -->
+            <div class="buttons">
+                <button type="button" id="prevBtn" style="display: none;">Anterior</button>
+                <button type="button" id="nextBtn">Próximo</button>
+                <button type="button" id="submitBtn" style="display: none;">Analisar Resultados</button>
+                <button type="button" id="printBtn" style="display: none;">Imprimir / Salvar PDF</button>
+            </div>
+            
+            <div class="footer">
+                &copy; 2025 IPPLA - Instituto de Psicologia e Planejamento Financeiro. Todos os direitos reservados.
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Variáveis de controle
+        let currentPart = 1;
+        const totalParts = 3;
+        
+        // Referências aos elementos
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const printBtn = document.getElementById('printBtn');
+        const progress = document.getElementById('progress');
+        
+        // Manipulação de navegação
+        nextBtn.addEventListener('click', function() {
+            if (currentPart < totalParts) {
+                document.getElementById(`part${currentPart}`).classList.add('hidden');
+                currentPart++;
+                document.getElementById(`part${currentPart}`).classList.remove('hidden');
+                progress.value = currentPart - 1;
+                
+                // Mostrar/esconder botões conforme necessário
+                prevBtn.style.display = 'inline-block';
+                
+                if (currentPart === totalParts) {
+                    nextBtn.style.display = 'none';
+                    submitBtn.style.display = 'inline-block';
+                }
+            }
+        });
+        
+        prevBtn.addEventListener('click', function() {
+            if (currentPart > 1) {
+                document.getElementById(`part${currentPart}`).classList.add('hidden');
+                currentPart--;
+                document.getElementById(`part${currentPart}`).classList.remove('hidden');
+                progress.value = currentPart - 1;
+                
+                // Mostrar/esconder botões conforme necessário
+                if (currentPart === 1) {
+                    prevBtn.style.display = 'none';
+                }
+                
+                nextBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'none';
+            }
+        });
+        
+        submitBtn.addEventListener('click', function() {
+            // Esconder a seção atual e mostrar resultados
+            document.getElementById(`part${currentPart}`).classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+            
+            // Atualizar navegação
+            prevBtn.style.display = 'none';
+            submitBtn.style.display = 'none';
+            printBtn.style.display = 'inline-block';
+            
+            // Atualizar progresso
+            progress.value = totalParts;
+            
+            // Gerar análise preliminar
+            generateAnalysis();
+        });
+        
+        printBtn.addEventListener('click', function() {
+            window.print();
+        });
+        
+        // Função para gerar análise
+        function generateAnalysis() {
+            const resultContent = document.getElementById('result-content');
+            
+            // Obter valores do formulário para análise
+            const primeirasMemorias = document.getElementById('primeiras_memorias').value;
+            const familiaDinheiro = document.getElementById('familia_dinheiro').value;
+            const comportamentoFinanceiro = document.getElementById('comportamento_financeiro').value;
+            const reacaoMercado = document.getElementById('reacao_mercado').value;
+            
+            const dividas = parseFloat(document.getElementById('dividas').value) || 0;
+            const renda = parseFloat(document.getElementById('renda_mensal').value) || 1;
+            const gastos = parseFloat(document.getElementById('gastos_mensais').value) || 0;
+            const investimentos = parseFloat(document.getElementById('investimentos').value) || 0;
+            const reserva = parseFloat(document.getElementById('reserva').value) || 0;
+            
+            // Calcular alguns indicadores
+            const comprometimentoRenda = (gastos / renda) * 100;
+            const nivelEndividamento = (dividas / (renda * 12)) * 100;
+            const mesesReserva = reserva / gastos;
+            
+            // Valores prioritários
+            const valoresPrioritarios = [];
+            const valores = [
+                { nome: "Segurança financeira", valor: parseInt(document.getElementById('seguranca').value) || 0 },
+                { nome: "Liberdade para viajar/lazer", valor: parseInt(document.getElementById('liberdade').value) || 0 },
+                { nome: "Aposentadoria confortável", valor: parseInt(document.getElementById('aposentadoria').value) || 0 },
+                { nome: "Educação", valor: parseInt(document.getElementById('educacao').value) || 0 },
+                { nome: "Status social/bens de luxo", valor: parseInt(document.getElementById('status').value) || 0 },
+                { nome: "Independência financeira", valor: parseInt(document.getElementById('independencia').value) || 0 },
+                { nome: "Filantropia/ajudar outros", valor: parseInt(document.getElementById('filantropia').value) || 0 },
+                { nome: "Trabalhar menos horas", valor: parseInt(document.getElementById('trabalho').value) || 0 },
+                { nome: "Criar um negócio próprio", valor: parseInt(document.getElementById('negocio').value) || 0 },
+                { nome: "Deixar herança", valor: parseInt(document.getElementById('heranca').value) || 0 }
+            ];
+            
+            // Ordenar valores por importância
+            valores.sort((a, b) => b.valor - a.valor);
+            
+            // Selecionar os 3 mais importantes
+            for (let i = 0; i < 3 && i < valores.length; i++) {
+                if (valores[i].valor > 0) {
+                    valoresPrioritarios.push(valores[i].nome);
+                }
+            }
+            
+            // Gerar análise HTML
+            let analiseHTML = `
+                <h3>Perfil Psicofinanceiro</h3>
+                <p>Com base nas informações fornecidas, segue uma análise preliminar da sua relação com o dinheiro:</p>
+                
+                <h4>Histórico Financeiro</h4>
+                <p>Suas primeiras experiências com dinheiro parecem ter moldado sua visão atual. ${primeirasMemorias ? 'A memória sobre "' + primeirasMemorias.substring(0, 30) + '..." indica que' : 'Suas experiências iniciais'} podem estar influenciando seu comportamento atual com dinheiro.</p>
+                
+                <h4>Comportamento Financeiro</h4>
+                <p>Você se identifica como um "${comportamentoFinanceiro || 'não especificado'}" em relação ao dinheiro. Isso sugere que ${getComportamentoAnalise(comportamentoFinanceiro)}.</p>
+                
+                <h4>Análise Técnica</h4>
+                <ul>
+                    <li><strong>Comprometimento de renda:</strong> ${comprometimentoRenda.toFixed(1)}% ${getComprometimentoAnalise(comprometimentoRenda)}</li>
+                    <li><strong>Nível de endividamento:</strong> ${nivelEndividamento.toFixed(1)}% ${getEndividamentoAnalise(nivelEndividamento)}</li>
+                    <li><strong>Reserva de emergência:</strong> ${mesesReserva.toFixed(1)} meses ${getReservaAnalise(mesesReserva)}</li>
+                </ul>
+                
+                <h4>Valores Prioritários</h4>
+                <p>Seus três valores financeiros mais importantes são:</p>
+                <ol>
+                    ${valoresPrioritarios.map(valor => `<li>${valor}</li>`).join('')}
+                </ol>
+                <p>Quando seu plano financeiro está alinhado com esses valores, a probabilidade de sucesso aumenta significativamente.</p>
+                
+                <h4>Recomendações Preliminares</h4>
+                <ul>
+                    ${getRecomendacoes(comprometimentoRenda, nivelEndividamento, mesesReserva, comportamentoFinanceiro, reacaoMercado)}
+                </ul>
+                
+                <h4>Próximos Passos</h4>
+                <p>Esta é apenas uma análise preliminar. Agende uma sessão de planejamento psicofinanceiro para aprofundar estes temas e desenvolver um plano personalizado que integre seus objetivos financeiros com seus valores pessoais.</p>
+            `;
+            
+            resultContent.innerHTML = analiseHTML;
+            resultContent.style.display = 'block';
+        }
+        
+        // Funções auxiliares para análise
+        function getComportamentoAnalise(comportamento) {
+            switch (comportamento) {
+                case 'Gastador impulsivo':
+                    return 'você pode se beneficiar de estratégias para controlar impulsos de compra e construir hábitos de poupança';
+                case 'Economizador compulsivo':
+                    return 'você pode estar priorizando poupança em detrimento de qualidade de vida, e poderia beneficiar-se de um equilíbrio melhor';
+                case 'Evitador financeiro':
+                    return 'você pode se beneficiar de ferramentas que simplifiquem o controle financeiro e tornem este processo menos estressante';
+                case 'Controlador equilibrado':
+                    return 'você já possui bons hábitos financeiros, e pode focar em otimizar sua estratégia';
+                case 'Perseguidor de status':
+                    return 'você pode estar priorizando a aparência externa sobre segurança financeira, e poderia se beneficiar de reconectar gastos com valores internos';
+                default:
+                    return 'sua relação com dinheiro tem características únicas que merecem uma análise mais aprofundada';
+            }
+        }
+        
+        function getComprometimentoAnalise(valor) {
+            if (valor > 90) return '(CRÍTICO: Sua renda está quase completamente comprometida)';
+            if (valor > 70) return '(ATENÇÃO: Seu nível de gastos está bastante elevado)';
+            if (valor > 50) return '(MODERADO: Você tem alguma margem para poupar)';
+            return '(SAUDÁVEL: Você tem boa margem para poupar e investir)';
+        }
+        
+        function getEndividamentoAnalise(valor) {
+            if (valor > 50) return '(CRÍTICO: Seu nível de endividamento está muito elevado)';
+            if (valor > 30) return '(ATENÇÃO: Seu endividamento está acima do recomendado)';
+            if (valor > 10) return '(MODERADO: Seu endividamento está em nível aceitável)';
+            return '(SAUDÁVEL: Seu nível de endividamento está baixo)';
+        }
+        
+        function getReservaAnalise(valor) {
+            if (valor < 1) return '(CRÍTICO: Você não possui reserva de emergência adequada)';
+            if (valor < 3) return '(ATENÇÃO: Sua reserva está abaixo do mínimo recomendado de 3 meses)';
+            if (valor < 6) return '(ADEQUADO: Sua reserva está dentro do recomendado)';
+            return '(EXCELENTE: Sua reserva está acima do recomendado)';
+        }
+        
+        function getRecomendacoes(comprometimento, endividamento, reserva, comportamento, reacaoMercado) {
+            let recomendacoes = [];
+            
+            // Recomendações baseadas nos indicadores financeiros
+            if (comprometimento > 70) {
+                recomendacoes.push('Rever gastos para reduzir o comprometimento de renda para menos de 70%');
+            }
+            
+            if (endividamento > 30) {
+                recomendacoes.push('Priorizar a quitação de dívidas, começando pelas de maior custo');
+            }
+            
+            if (reserva < 3) {
+                recomendacoes.push('Construir uma reserva de emergência de pelo menos 3 meses de despesas');
+            }
+            
+            // Recomendações baseadas no comportamento
+            switch (comportamento) {
+                case 'Gastador impulsivo':
+                    recomendacoes.push('Implementar a técnica de 48 horas: espere dois dias antes de fazer compras não essenciais');
+                    break;
+                case 'Economizador compulsivo':
+                    recomendacoes.push('Definir uma quantia mensal para gastar em lazer sem culpa');
+                    break;
+                case 'Evitador financeiro':
+                    recomendacoes.push('Começar com pequenos passos: dedique 15 minutos por semana para revisar suas finanças');
+                    break;
+                case 'Perseguidor de status':
+                    recomendacoes.push('Experimente o "jejum de consumo" por 30 dias, comprando apenas o essencial');
+                    break;
+            }
+            
+            // Recomendações baseadas na reação ao mercado
+            if (reacaoMercado === 'Pânico e venda') {
+                recomendacoes.push('Desenvolver um plano de investimentos por escrito para momentos de volatilidade');
+            }
+            
+            // Se não tiver recomendações específicas
+            if (recomendacoes.length === 0) {
+                recomendacoes.push('Continuar com os bons hábitos financeiros já estabelecidos');
+                recomendacoes.push('Considerar diversificar investimentos para otimizar retornos de longo prazo');
+            }
+            
+            return recomendacoes.map(rec => `<li>${rec}</li>`).join('');
+        }
+    </script>
+</body>
+</html>
